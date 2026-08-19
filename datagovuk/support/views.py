@@ -13,7 +13,8 @@ logger = logging.getLogger(__name__)
 class SupportFormView(FormView):
     template_name = "support/support_form.jinja"
     form_class = SupportForm
-    success_url = reverse_lazy("support:confirmation")
+    # TODO: What does success for this page look like
+    success_url = reverse_lazy("pages:home")
 
     def form_valid(self, form):
         cleaned_data = form.cleaned_data
