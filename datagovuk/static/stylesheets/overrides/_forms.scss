@@ -6,6 +6,19 @@
     color: $datagovuk-black;
   }
 
+  .govuk-hint {
+    font-size: 16px;
+    font-family: 'Inter', sans-serif;
+    color: $datagovuk-black;
+  }
+
+  .datagovuk-hint-l {
+    font-size: 20px;
+    line-height: 140%;
+    font-family: 'Inter', sans-serif;
+    color: $datagovuk-black;
+  }
+
   .govuk-label.datagovuk-heading-m {
     font-size: 26px;
     font-weight: normal;

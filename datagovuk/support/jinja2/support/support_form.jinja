@@ -93,7 +93,7 @@
                 "text": form.details.label,
                 "classes": "govuk-heading-m datagovuk-heading-m govuk-!-margin-bottom-4",
               },
-              "hint": {"text": "For example if you were searching for something, what did you type into the search box?", "classes": "govuk-!-margin-bottom-8 govuk-body datagovuk-body"},
+              "hint": {"text": "For example if you were searching for something, what did you type into the search box?", "classes": "govuk-!-margin-bottom-8 govuk-body datagovuk-body datagovuk-hint-l"},
               "id": form.details.id_for_label,
               "name": form.details.html_name,
               "value": form.details.value() or "",
@@ -107,10 +107,9 @@
             <p class="govuk-hint govuk-body datagovuk-body govuk-!-margin-bottom-8">You have 1200 characters remaining</p>
 
             <div class="govuk-form-group datagovuk-form-group govuk-!-margin-bottom-8">
-              <fieldset class="govuk-fieldset">
-                <legend class="govuk-fieldset__legend govuk-heading-m datagovuk-heading-m">
+                <h2 class="govuk-heading-m datagovuk-heading-m">
                   If you want a reply (optional)
-                </legend>
+                </h2>
 
                 <p class="govuk-body datagovuk-body govuk-!-margin-bottom-8">If you'd like us to get back to you, please leave your details below.</p>
 
@@ -125,7 +124,7 @@
 
                 {{ govukInput({
                   "label": {"text": form.email.label, "classes": "govuk-body datagovuk-body"},
-                  "hint": {"text": "We'll only use this to reply to your message."},
+                  "hint": {"text": "We'll only use this to reply to your message.", "classes": "govuk-hint govuk-body datagovuk-body"},
                   "id": form.email.id_for_label,
                   "name": form.email.html_name,
                   "value": form.email.value() or "",
@@ -133,7 +132,6 @@
                   "errorMessage": {"text": form.email.errors|join} if form.email.errors else None,
                   "formGroup": {"classes": "datagovuk-form-group"},
                 }) }}
-              </fieldset>
             </div>
 
             {{ govukButton({"text": "Send message", "classes": "datagovuk-button"}) }}
