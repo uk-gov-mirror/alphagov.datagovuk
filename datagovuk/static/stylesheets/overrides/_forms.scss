@@ -12,11 +12,15 @@
     color: $datagovuk-black;
   }
 
+  .datagovuk-hint {
+    color: $datagovuk-grey;
+  }
+
   .datagovuk-hint-l {
     font-size: 20px;
     line-height: 140%;
     font-family: 'Inter', sans-serif;
-    color: $datagovuk-black;
+    color: $datagovuk-grey;
   }
 
   .govuk-label.datagovuk-heading-m {

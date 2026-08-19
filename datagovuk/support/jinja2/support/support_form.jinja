@@ -100,10 +100,11 @@
               "errorMessage": {"text": form.details.errors|join} if form.details.errors else None,
               "formGroup": {
                 "classes": "datagovuk-form-group",
+                "afterInput": {
+                  "html": '<p class="datagovuk-hint-l govuk-body datagovuk-body govuk-!-margin-bottom-8">You have 1200 characters remaining</p>',
+                },
               },
             }) }}
-
-            <p class="govuk-hint govuk-body datagovuk-body govuk-!-margin-bottom-8">You have 1200 characters remaining</p>
 
             <div class="govuk-form-group datagovuk-form-group govuk-!-margin-bottom-8">
               <fieldset class="govuk-fieldset">
@@ -124,7 +125,7 @@
 
                 {{ govukInput({
                   "label": {"text": form.email.label, "classes": "govuk-body datagovuk-body"},
-                  "hint": {"text": "We'll only use this to reply to your message.", "classes": "govuk-hint govuk-body datagovuk-body"},
+                  "hint": {"text": "We'll only use this to reply to your message.", "classes": "govuk-hint datagovuk-hint govuk-body datagovuk-body"},
                   "id": form.email.id_for_label,
                   "name": form.email.html_name,
                   "value": form.email.value() or "",
