@@ -6,7 +6,7 @@
     color: $datagovuk-black;
   }
 
-  .govuk-label .datagovuk-heading-m {
+  .govuk-label.datagovuk-heading-m {
     font-size: 26px;
     font-weight: normal;
     line-height: 120%;
@@ -90,6 +90,10 @@
     .govuk-textarea,
     .govuk-select {
       font-size: 22px;
+    }
+
+    .govuk-label.datagovuk-heading-m {
+      font-size: 30px;
     }
   }
 }
