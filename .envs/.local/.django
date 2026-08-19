@@ -3,3 +3,4 @@ IPYTHONDIR=/app/.ipython
 DJANGO_SETTINGS_MODULE=config.settings.local
 PLAYWRIGHT_HOST=playwright
 SOLR_URL=http://solr:8983/solr/ckan
+ZENDESK_API_KEY=your-secret-key

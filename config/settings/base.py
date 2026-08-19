@@ -84,6 +84,7 @@ LOCAL_APPS = [
     "datagovuk.collections",
     "datagovuk.directory",
     "datagovuk.ckan_redirect",
+    "datagovuk.support",
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -325,3 +326,5 @@ SOLR_URL = env("SOLR_URL", default=None)
 MONKEYPATCH_ZSCALER_SSL = env.bool("MONKEYPATCH_ZSCALER_SSL", False)
 
 CKAN_DOMAIN = "ckan.publishing.service.gov.uk"
+
+ZENDESK_API_KEY = env("ZENDESK_API_KEY", default=None)
