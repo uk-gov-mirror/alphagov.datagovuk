@@ -46,11 +46,10 @@
           </p>
         </div>
 
-        <section class="govuk-!-margin-bottom-8">
-          <form method="post" novalidate>
-            {{ csrf_input }}
+        <form method="post" novalidate class="govuk-!-margin-bottom-8">
+          {{ csrf_input }}
 
-            {# djlint:off #}
+          {# djlint:off #}
             {{ govukRadios({
               "name": form.about.html_name,
               "fieldset": {
@@ -107,9 +106,10 @@
             <p class="govuk-hint govuk-body datagovuk-body govuk-!-margin-bottom-8">You have 1200 characters remaining</p>
 
             <div class="govuk-form-group datagovuk-form-group govuk-!-margin-bottom-8">
-                <h2 class="govuk-heading-m datagovuk-heading-m">
+              <fieldset class="govuk-fieldset">
+                <legend class="govuk-fieldset__legend govuk-fieldset__legend--m datagovuk-heading-m">
                   If you want a reply (optional)
-                </h2>
+                </legend>
 
                 <p class="govuk-body datagovuk-body govuk-!-margin-bottom-8">If you'd like us to get back to you, please leave your details below.</p>
 
@@ -132,12 +132,12 @@
                   "errorMessage": {"text": form.email.errors|join} if form.email.errors else None,
                   "formGroup": {"classes": "datagovuk-form-group"},
                 }) }}
+              </fieldset>
             </div>
 
             {{ govukButton({"text": "Send message", "classes": "datagovuk-button"}) }}
-            {# djlint:on #}
-          </form>
-        </section>
+          {# djlint:on #}
+        </form>
       </div>
     </div>
   </div>
