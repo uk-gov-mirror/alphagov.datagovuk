@@ -38,7 +38,7 @@
 
         <section class="govuk-!-margin-bottom-8">
           <p class="govuk-body datagovuk-body">
-            The government Digital Service (GDS) maintains the service behind the National Data Library.
+            The Government Digital Service (GDS) maintains the service behind the National Data Library.
           </p>
 
           <p class="govuk-body datagovuk-body">The National Data Library service cannot:</p>
@@ -63,42 +63,6 @@
           {{ csrf_input }}
 
           {# djlint:off #}
-            {{ govukRadios({
-              "name": form.about.html_name,
-              "fieldset": {
-                "legend": {
-                  "text": form.about.label,
-                  "classes": "govuk-heading-m datagovuk-heading-m govuk-!-margin-bottom-8",
-                  "isPageHeading": false,
-                }
-              },
-              "items": [
-                {
-                  "value": form.AboutChoices.WHOLE_WEBSITE.value,
-                  "text": form.AboutChoices.WHOLE_WEBSITE.label,
-                  "checked": form.about.value() == form.AboutChoices.WHOLE_WEBSITE.value,
-                  "classes": "datagovuk-form-group"
-                },
-                {
-                  "value": form.AboutChoices.SPECIFIC_PAGE.value,
-                  "text": form.AboutChoices.SPECIFIC_PAGE.label,
-                  "checked": form.about.value() == form.AboutChoices.SPECIFIC_PAGE.value,
-                  "classes": "datagovuk-form-group",
-                  "conditional": {
-                    "html": govukInput({
-                      "label": {"text": form.page_reference.label},
-                      "id": form.page_reference.id_for_label,
-                      "name": form.page_reference.html_name,
-                      "value": form.page_reference.value() or "",
-                      "errorMessage": {"text": form.page_reference.errors|join} if form.page_reference.errors else None,
-                    })
-                  },
-                },
-              ],
-              "errorMessage": {"text": form.about.errors|join} if form.about.errors else None,
-              "formGroup": {"classes": "datagovuk-form-group"},
-            }) }}
-
             {{
               govukCharacterCount({
                 "label": {
