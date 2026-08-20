@@ -2,7 +2,7 @@
 
 {% from "govuk_frontend_jinja/components/radios/macro.html" import govukRadios -%}
 {% from "govuk_frontend_jinja/components/input/macro.html" import govukInput -%}
-{% from "govuk_frontend_jinja/components/textarea/macro.html" import govukTextarea -%}
+{% from "govuk_frontend_jinja/components/character-count/macro.html" import govukCharacterCount -%}
 {% from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
 {% from "govuk_frontend_jinja/components/notification-banner/macro.html" import govukNotificationBanner -%}
 {% from "govuk_frontend_jinja/components/error-summary/macro.html" import govukErrorSummary -%}
@@ -99,25 +99,23 @@
               "formGroup": {"classes": "datagovuk-form-group"},
             }) }}
 
-            {# TODO: connect maxlength with calculations #}
-            {{ govukTextarea({
-              "label": {
-                "text": form.details.label,
-                "classes": "govuk-heading-m datagovuk-heading-m govuk-!-margin-bottom-4",
-              },
-              "hint": {"text": "For example if you were searching for something, what did you type into the search box?" },
-              "id": form.details.id_for_label,
-              "name": form.details.html_name,
-              "value": form.details.value() or "",
-              "maxlength": form.details.max_length,
-              "errorMessage": {"text": form.details.errors|join} if form.details.errors else None,
-              "formGroup": {
-                "classes": "datagovuk-form-group",
-                "afterInput": {
-                  "html": '<p class="datagovuk-hint-l govuk-body datagovuk-body govuk-!-margin-bottom-8">You have {{ form.details.max_length }} characters remaining</p>',
+            {{
+              govukCharacterCount({
+                "label": {
+                  "text": form.details.label,
+                  "classes": "govuk-heading-m datagovuk-heading-m govuk-!-margin-bottom-4",
                 },
-              },
-            }) }}
+                "hint": {"text": "For example if you were searching for something, what did you type into the search box?"},
+                "id": form.details.id_for_label,
+                "name": form.details.html_name,
+                "value": form.details.value() or "",
+                "maxlength": 1200,
+                "errorMessage": {"text": form.details.errors|join} if form.details.errors else None,
+                "formGroup": {
+                  "classes": "datagovuk-form-group"
+                }
+              })
+            }}
 
             <div class="govuk-form-group datagovuk-form-group govuk-!-margin-bottom-8">
               <fieldset class="govuk-fieldset">
@@ -138,7 +136,7 @@
 
                 {{ govukInput({
                   "label": {"text": form.email.label, "classes": "govuk-body datagovuk-body"},
-                  "hint": {"text": "We'll only use this to reply to your message.", "classes": "govuk-hint datagovuk-hint govuk-body datagovuk-body"},
+                  "hint": {"text": "We'll only use this to reply to your message.", "classes": "govuk-body datagovuk-body"},
                   "id": form.email.id_for_label,
                   "name": form.email.html_name,
                   "value": form.email.value() or "",

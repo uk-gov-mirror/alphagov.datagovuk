@@ -18,7 +18,6 @@ class SupportForm(forms.Form):
     )
     details = forms.CharField(
         widget=forms.Textarea,
-        max_length=1200,
         label="What are the details",
     )
     name = forms.CharField(
