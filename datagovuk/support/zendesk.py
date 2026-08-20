@@ -1,3 +1,4 @@
+import dataclasses
 import logging
 from http import HTTPStatus
 
@@ -21,7 +22,14 @@ class ZendeskClient:
         self.api_key = settings.ZENDESK_API_KEY
         self.requests_session = requests.Session()
 
-    def send_ticket_to_zendesk(self, ticket):
+    def send_ticket_to_zendesk(self, message_body, name, email):
+        ticket = NDLSupportTicket(
+            subject="Support request from National Data Library",
+            message="\n".join(message_body),
+            requester_name=name,
+            requester_email=email,
+            tags=["national_data_library"],
+        )
         response = self.requests_session.post(
             self.ZENDESK_TICKET_URL,
             json=ticket.request_data,
@@ -60,3 +68,30 @@ class ZendeskClient:
 class ZendeskError(Exception):
     def __init__(self, response):
         self.response = response
+
+
+@dataclasses.dataclass
+class NDLSupportTicket:
+    subject: str
+    message: str
+    requester_name: str | None = None
+    requester_email: str | None = None
+    tags: list[str] = dataclasses.field(default_factory=list)
+
+    @property
+    def request_data(self):
+        data = {
+            "ticket": {
+                "subject": self.subject,
+                "comment": {"body": self.message, "public": False},
+                "tags": self.tags,
+            },
+        }
+
+        if self.requester_email:
+            data["ticket"]["requester"] = {
+                "email": self.requester_email,
+                "name": self.requester_name or self.requester_email,
+            }
+
+        return data

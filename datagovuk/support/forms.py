@@ -1,13 +1,12 @@
 from django import forms
 
+from .constants import AboutChoices
+
 
 class SupportForm(forms.Form):
     about = forms.ChoiceField(
         label="What's it to do with?",
-        choices=[
-            ("whole_website", "The whole website"),
-            ("specific_page", "A specific page"),
-        ],
+        choices=AboutChoices.choices,
         widget=forms.RadioSelect,
     )
     page_reference = forms.CharField(
@@ -30,10 +29,6 @@ class SupportForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        if cleaned_data["about"] == "specific_page" and not cleaned_data["page_reference"]:
+        if cleaned_data.get("about") == AboutChoices.SPECIFIC_PAGE.value and not cleaned_data.get("page_reference"):
             self.add_error("page_reference", "Enter a URL or name of page")
         return cleaned_data
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields["about"].widget.attrs.update({"class": "govuk-radios__input"})

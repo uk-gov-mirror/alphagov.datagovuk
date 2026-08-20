@@ -5,7 +5,6 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 
 from .forms import SupportForm
-from .ndl_support_ticket import NDLSupportTicket
 from .zendesk import ZendeskClient, ZendeskError
 
 logger = logging.getLogger(__name__)
@@ -22,27 +21,21 @@ class SupportFormView(FormView):
         about = cleaned_data["about"]
         page_reference = cleaned_data["page_reference"]
         details = cleaned_data["details"]
-        name = cleaned_data["name"] or None
-        email = cleaned_data["email"] or None
+        requester_name = cleaned_data["name"] or None
+        requester_email = cleaned_data["email"] or None
 
         message_body = [f"About: {about}"]
         if page_reference:
             message_body.append(f"Page: {page_reference}")
         message_body.append(f"\n{details}")
 
-        ticket = NDLSupportTicket(
-            subject="Support request from National Data Library",
-            message="\n".join(message_body),
-            requester_name=name,
-            requester_email=email,
-            tags=["national_data_library"],
-        )
-
         zendesk_client = ZendeskClient()
         try:
-            zendesk_client.send_ticket_to_zendesk(ticket)
+            zendesk_client.send_ticket_to_zendesk(message_body, requester_name, requester_email)
         except ZendeskError:
             logger.exception("Failed to send Zendesk ticket")
+            messages.error(self.request, "Sorry, there is a problem with the service. Please try again later.")
+            return self.form_invalid(form)
 
         messages.success(self.request, "Your support ticket has been successfully sent.")
         return super().form_valid(form)

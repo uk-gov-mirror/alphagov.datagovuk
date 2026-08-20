@@ -5,6 +5,7 @@
 {% from "govuk_frontend_jinja/components/textarea/macro.html" import govukTextarea -%}
 {% from "govuk_frontend_jinja/components/button/macro.html" import govukButton -%}
 {% from "govuk_frontend_jinja/components/notification-banner/macro.html" import govukNotificationBanner -%}
+{% from "govuk_frontend_jinja/components/error-summary/macro.html" import govukErrorSummary -%}
 
 {% set page_title = "Contact" %}
 
@@ -16,11 +17,23 @@
         <h1 class="govuk-heading-l datagovuk-heading-l">Contact National Data Library</h1>
 
         {% for message in messages %}
-          {{ govukNotificationBanner({
-                    "type": "success",
-                    "text": message.message,
-                    "classes": "datagovuk-notification-banner govuk-body datagovuk-body govuk-!-margin-bottom-8",
-                    }) }}
+          {% if message.tags == "success" %}
+            {{ govukNotificationBanner({
+                        "type": "success",
+                        "text": message.message,
+                        "classes": "datagovuk-notification-banner govuk-body datagovuk-body govuk-!-margin-bottom-8",
+                        }) }}
+          {% else %}
+            {{ govukErrorSummary({
+              "titleText": "Sorry, there is a problem with the service",
+              "errorList": [
+                {
+                  "text": "Try again later"
+                }
+              ],
+              "classes": "govuk-!-margin-bottom-8"
+            }) }}
+          {% endif %}
         {% endfor %}
 
         <section class="govuk-!-margin-bottom-8">
@@ -96,12 +109,12 @@
               "id": form.details.id_for_label,
               "name": form.details.html_name,
               "value": form.details.value() or "",
-              "maxlength": 1200,
+              "maxlength": form.details.max_length,
               "errorMessage": {"text": form.details.errors|join} if form.details.errors else None,
               "formGroup": {
                 "classes": "datagovuk-form-group",
                 "afterInput": {
-                  "html": '<p class="datagovuk-hint-l govuk-body datagovuk-body govuk-!-margin-bottom-8">You have 1200 characters remaining</p>',
+                  "html": '<p class="datagovuk-hint-l govuk-body datagovuk-body govuk-!-margin-bottom-8">You have {{ form.details.max_length }} characters remaining</p>',
                 },
               },
             }) }}
