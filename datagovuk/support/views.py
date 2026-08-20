@@ -27,7 +27,9 @@ class SupportFormView(FormView):
         message_body = [f"About: {about}"]
         if page_reference:
             message_body.append(f"Page: {page_reference}")
-        message_body.append(f"\n{details}")
+        message_body.append(f"\nDetails:\n{details}")
+
+        # TODO: what would the messsage body look like
 
         zendesk_client = ZendeskClient()
         try:
@@ -37,5 +39,5 @@ class SupportFormView(FormView):
             messages.error(self.request, "Please try again later")
             return self.form_invalid(form)
 
-        messages.success(self.request, "Your support ticket has been successfully sent.")
+        messages.success(self.request, "Your support ticket has been successfully sent")
         return super().form_valid(form)
