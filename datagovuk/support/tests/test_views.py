@@ -50,7 +50,7 @@ class TestSupportFormView:
         )
 
     @patch("datagovuk.support.views.ZendeskClient.send_ticket_to_zendesk")
-    def test_view_invalid_submission(self, mock_zendesk, client):
+    def test_view_invalid_submission_missing_page_reference(self, mock_zendesk, client):
         form_data = {
             "about": "specific_page",
             "details": "The details of this support request",
