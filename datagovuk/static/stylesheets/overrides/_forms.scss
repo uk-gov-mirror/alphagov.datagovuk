@@ -7,20 +7,10 @@
   }
 
   .govuk-hint {
-    font-size: 16px;
     font-family: 'Inter', sans-serif;
-    color: $datagovuk-black;
-  }
-
-  .datagovuk-hint {
-    color: $datagovuk-grey;
-  }
-
-  .datagovuk-hint-l {
     font-size: 20px;
-    line-height: 140%;
-    font-family: 'Inter', sans-serif;
     color: $datagovuk-grey;
+    margin-bottom: 20px !important;
   }
 
   .govuk-label.datagovuk-heading-m {

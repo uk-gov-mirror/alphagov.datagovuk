@@ -8,6 +8,18 @@ from django.conf import settings
 logger = logging.getLogger(__name__)
 
 
+def send_ticket_to_zendesk(message_body, name, email):
+    ticket = NDLSupportTicket(
+        subject="Support request from National Data Library",
+        message="\n".join(message_body),
+        requester_name=name,
+        requester_email=email,
+        tags=["national_data_library"],
+    )
+    client = ZendeskClient()
+    client.send_ticket_to_zendesk(ticket)
+
+
 class ZendeskClient:
     """
     A ZendeskClient copied from the alphagov/notifications-utils repo
@@ -22,14 +34,10 @@ class ZendeskClient:
         self.api_key = settings.ZENDESK_API_KEY
         self.requests_session = requests.Session()
 
-    def send_ticket_to_zendesk(self, message_body, name, email):
-        ticket = NDLSupportTicket(
-            subject="Support request from National Data Library",
-            message="\n".join(message_body),
-            requester_name=name,
-            requester_email=email,
-            tags=["national_data_library"],
-        )
+        # Raise not implemented erorrs for ZENDESK_API_KEY
+
+    def send_ticket_to_zendesk(self, ticket):
+
         response = self.requests_session.post(
             self.ZENDESK_TICKET_URL,
             json=ticket.request_data,

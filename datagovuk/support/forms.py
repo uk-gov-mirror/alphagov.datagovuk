@@ -1,9 +1,12 @@
 from django import forms
-
-from .constants import AboutChoices
+from django.db import models
 
 
 class SupportForm(forms.Form):
+    class AboutChoices(models.TextChoices):
+        WHOLE_WEBSITE = "whole_website", "The whole website"
+        SPECIFIC_PAGE = "specific_page", "A specific page"
+
     about = forms.ChoiceField(
         label="What's it to do with?",
         choices=AboutChoices.choices,
@@ -29,6 +32,8 @@ class SupportForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        if cleaned_data.get("about") == AboutChoices.SPECIFIC_PAGE.value and not cleaned_data.get("page_reference"):
+        if cleaned_data.get("about") == self.AboutChoices.SPECIFIC_PAGE.value and not cleaned_data.get(
+            "page_reference",
+        ):
             self.add_error("page_reference", "Enter a URL or name of page")
         return cleaned_data

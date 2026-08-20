@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
 
 from .forms import SupportForm
-from .zendesk import ZendeskClient, ZendeskError
+from .zendesk import ZendeskError, send_ticket_to_zendesk
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +16,7 @@ class SupportFormView(FormView):
     success_url = reverse_lazy("support:support-form")
 
     def form_valid(self, form):
+        logger.info(self.request.META)
         cleaned_data = form.cleaned_data
 
         about = cleaned_data["about"]
@@ -25,16 +26,17 @@ class SupportFormView(FormView):
         requester_email = cleaned_data["email"] or None
 
         message_body = [f"About: {about}"]
+        # TODO: page reference would be the HTTP referer url path + query params?
         if page_reference:
             message_body.append(f"Page: {page_reference}")
         message_body.append(f"\nDetails:\n{details}")
 
         # TODO: what would the messsage body look like
 
-        zendesk_client = ZendeskClient()
         try:
-            zendesk_client.send_ticket_to_zendesk(message_body, requester_name, requester_email)
+            send_ticket_to_zendesk(message_body, requester_name, requester_email)
         except ZendeskError:
+            # TODO use the capture_exception util function
             logger.exception("Failed to send Zendesk ticket")
             messages.error(self.request, "Please try again later")
             return self.form_invalid(form)

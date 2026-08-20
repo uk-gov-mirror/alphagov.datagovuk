@@ -74,15 +74,15 @@
               },
               "items": [
                 {
-                  "value": "whole_website",
-                  "text": "The whole website",
-                  "checked": form.about.value() == "whole_website",
+                  "value": form.AboutChoices.WHOLE_WEBSITE.value,
+                  "text": form.AboutChoices.WHOLE_WEBSITE.label,
+                  "checked": form.about.value() == form.AboutChoices.WHOLE_WEBSITE.value,
                   "classes": "datagovuk-form-group"
                 },
                 {
-                  "value": "specific_page",
-                  "text": "A specific page",
-                  "checked": form.about.value() == "specific_page",
+                  "value": form.AboutChoices.SPECIFIC_PAGE.value,
+                  "text": form.AboutChoices.SPECIFIC_PAGE.label,
+                  "checked": form.about.value() == form.AboutChoices.SPECIFIC_PAGE.value,
                   "classes": "datagovuk-form-group",
                   "conditional": {
                     "html": govukInput({
@@ -105,7 +105,7 @@
                 "text": form.details.label,
                 "classes": "govuk-heading-m datagovuk-heading-m govuk-!-margin-bottom-4",
               },
-              "hint": {"text": "For example if you were searching for something, what did you type into the search box?", "classes": "govuk-!-margin-bottom-8 govuk-body datagovuk-body datagovuk-hint-l"},
+              "hint": {"text": "For example if you were searching for something, what did you type into the search box?" },
               "id": form.details.id_for_label,
               "name": form.details.html_name,
               "value": form.details.value() or "",
