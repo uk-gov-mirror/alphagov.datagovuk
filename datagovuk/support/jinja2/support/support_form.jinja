@@ -25,14 +25,14 @@
                         }) }}
           {% else %}
             {{ govukErrorSummary({
-              "titleText": "Sorry, there is a problem with the service",
-              "errorList": [
-                {
-                  "text": "Try again later"
-                }
-              ],
-              "classes": "govuk-!-margin-bottom-8"
-            }) }}
+                        "titleText": "Sorry, there is a problem with the service",
+                        "errorList": [
+                        {
+                        "html": '<p class="govuk-body datagovuk-body">' + message.message + '</p>',
+                        }
+                        ],
+                        "classes": "datagovuk-notification-banner govuk-body datagovuk-body govuk-!-margin-bottom-8"
+                        }) }}
           {% endif %}
         {% endfor %}
 

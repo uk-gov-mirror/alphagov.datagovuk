@@ -34,7 +34,7 @@ class SupportFormView(FormView):
             zendesk_client.send_ticket_to_zendesk(message_body, requester_name, requester_email)
         except ZendeskError:
             logger.exception("Failed to send Zendesk ticket")
-            messages.error(self.request, "Sorry, there is a problem with the service. Please try again later.")
+            messages.error(self.request, "Please try again later")
             return self.form_invalid(form)
 
         messages.success(self.request, "Your support ticket has been successfully sent.")
