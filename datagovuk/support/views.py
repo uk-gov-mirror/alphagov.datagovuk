@@ -3,6 +3,7 @@ import logging
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
+from sentry_sdk import capture_exception
 
 from .forms import SupportForm
 from .zendesk import ZendeskError, send_ticket_to_zendesk
@@ -15,31 +16,31 @@ class SupportFormView(FormView):
     form_class = SupportForm
     success_url = reverse_lazy("support:support-form")
 
-    def form_valid(self, form):
-        logger.info(self.request.META)
-        cleaned_data = form.cleaned_data
+    def get_initial(self):
+        initial = super().get_initial()
+        initial["http_referer"] = self.request.headers.get("referer", "")
+        return initial
 
-        about = cleaned_data["about"]
-        page_reference = cleaned_data["page_reference"]
+    def form_valid(self, form):
+        cleaned_data = form.cleaned_data
+        http_referer = cleaned_data["http_referer"]
         details = cleaned_data["details"]
         requester_name = cleaned_data["name"] or None
         requester_email = cleaned_data["email"] or None
 
-        message_body = [f"About: {about}"]
+        message_body = []
         # TODO: page reference would be the HTTP referer url path + query params?
-        if page_reference:
-            message_body.append(f"Page: {page_reference}")
+        if http_referer:
+            # TODO: how would we show the parsed_url in the message_body?
+            message_body.append(f"Page referred from: {http_referer}")
         message_body.append(f"\nDetails:\n{details}")
-
-        # TODO: what would the messsage body look like
 
         try:
             send_ticket_to_zendesk(message_body, requester_name, requester_email)
-        except ZendeskError:
-            # TODO use the capture_exception util function
-            logger.exception("Failed to send Zendesk ticket")
+        except ZendeskError as e:
+            capture_exception(e)
             messages.error(self.request, "Please try again later")
             return self.form_invalid(form)
 
-        messages.success(self.request, "Your support ticket has been successfully sent")
+        messages.success(self.request, f"Your support ticket has been successfully sent {message_body}")
         return super().form_valid(form)

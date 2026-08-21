@@ -37,7 +37,6 @@ class ZendeskClient:
         # Raise not implemented erorrs for ZENDESK_API_KEY
 
     def send_ticket_to_zendesk(self, ticket):
-
         response = self.requests_session.post(
             self.ZENDESK_TICKET_URL,
             json=ticket.request_data,
